@@ -32,9 +32,27 @@
     .auth-section{text-align:center;padding:40px 20px}
     .auth-btn{background:var(--primary-color);color:#fff;padding:12px 24px;font-size:16px;font-weight:600;border:none;border-radius:8px;cursor:pointer}
     .auth-btn:hover{background:var(--secondary-color)}
-    .progress-bar{width:100%;height:8px;background:var(--border-color);border-radius:4px;overflow:hidden;margin:10px 0}
-    .progress-fill{height:100%;background:var(--primary-color);transition:width .3s}
     .hidden{display:none}
+    
+    /* Info list with ticks */
+    .info-list{list-style:none;margin-top:16px}
+    .info-list li{padding:8px 0;padding-left:24px;position:relative;color:var(--text-light)}
+    .info-list li::before{content:"✓";position:absolute;left:0;color:var(--primary-color);font-weight:bold}
+    
+    /* Submitted requests table */
+    .requests-table{width:100%;border-collapse:collapse;margin-top:16px}
+    .requests-table th,.requests-table td{border:1px solid var(--border-color);padding:12px;text-align:left}
+    .requests-table th{background-color:var(--primary-color);color:white;font-weight:600}
+    .requests-table tr:nth-child(even){background-color:var(--light-bg)}
+    .requests-table tr:hover{background-color:#f0f7f4}
+    
+    /* Tab styling */
+    .tab-container{margin-top:20px}
+    .tab-buttons{display:flex;border-bottom:1px solid var(--border-color);margin-bottom:20px}
+    .tab-button{padding:10px 20px;background:none;border:none;cursor:pointer;font-weight:600;color:var(--text-light);border-bottom:3px solid transparent;transition:all .2s}
+    .tab-button.active{color:var(--primary-color);border-bottom-color:var(--primary-color)}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
     
     @media (max-width: 1200px) {
       .form-grid{grid-template-columns:repeat(3,1fr)}
@@ -56,100 +74,126 @@
   </div>
 
   <div id="mainContent" style="display:none;">
-    <div class="card">
-      <h1 style="margin:0 0 8px;">Feature Request Form</h1>
-      <p class="muted" style="margin-bottom:20px">Submit your request for new features, enhancements, or applications</p>
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-button active" data-tab="submit">Submit Request</button>
+        <button class="tab-button" data-tab="view">View My Requests</button>
+      </div>
       
-      <form id="featureRequestForm">
-        <!-- Compact 5-column grid for top row -->
-        <div class="form-grid">
-          <div class="form-field">
-            <label for="name" class="required">Name</label>
-            <input type="text" id="name" name="name" required placeholder="Full name">
-            <div id="nameError" class="error hidden"></div>
+      <!-- Submit Request Tab -->
+      <div id="submit-tab" class="tab-content active">
+        <div class="card">
+          <h1 style="margin:0 0 8px;">Feature Request Form</h1>
+          <p class="muted" style="margin-bottom:20px">Submit your request for new features, enhancements, or applications</p>
+          
+          <form id="featureRequestForm">
+            <!-- Compact 5-column grid for top row -->
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="name" class="required">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Full name">
+                <div id="nameError" class="error hidden"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="role" class="required">Role</label>
+                <input type="text" id="role" name="role" required placeholder="Role">
+                <div id="roleError" class="error hidden"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="company" class="required">Company</label>
+                <input type="text" id="company" name="company" required placeholder="Company">
+                <div id="companyError" class="error hidden"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="appRequestType" class="required">Request Type</label>
+                <select id="appRequestType" name="appRequestType" required>
+                  <option value="">Select type</option>
+                  <option value="Existing App Enhancement">Existing App Enhancement</option>
+                  <option value="Reporting & Analytics">Reporting & Analytics</option>
+                  <option value="Data Extraction">Data Extraction</option>
+                  <option value="Administration App">Administration App</option>
+                  <option value="Other">Other</option>
+                </select>
+                <div id="appRequestTypeError" class="error hidden"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="csmName" class="required">CSM</label>
+                <select id="csmName" name="csmName" required>
+                  <option value="">Select CSM</option>
+                  <option value="Beccy Hunt">Beccy Hunt</option>
+                  <option value="Dawn Poustie">Dawn Poustie</option>
+                  <option value="Vicki Coleman">Vicki Coleman</option>
+                </select>
+                <div id="csmNameError" class="error hidden"></div>
+              </div>
+            </div>
+            
+            <!-- Other type field (appears below when "Other" is selected) -->
+            <div class="form-field full-width hidden" id="otherTypeField">
+              <label for="otherType" class="required">Specify Request Type</label>
+              <input type="text" id="otherType" name="otherType" placeholder="Please specify your request type">
+              <div id="otherTypeError" class="error hidden"></div>
+            </div>
+            
+            <!-- Full width Use Case - STRETCHED -->
+            <div class="form-field full-width" style="margin-top:20px">
+              <label for="useCase" class="required">Use Case</label>
+              <textarea id="useCase" name="useCase" required 
+                        placeholder="Please describe your use case in detail. Include information about what you're trying to achieve, who will use it, and how it will benefit your team."></textarea>
+              <div id="useCaseError" class="error hidden"></div>
+            </div>
+            
+            <!-- Full width Supporting Information - STRETCHED -->
+            <div class="form-field full-width" style="margin-top:20px">
+              <label for="supportingInfo">Supporting Information</label>
+              <textarea id="supportingInfo" name="supportingInfo" 
+                        placeholder="Any additional information, links, screenshots descriptions, or context that might help us understand your request better."></textarea>
+            </div>
+            
+            <div id="formSuccess" class="success-message hidden">
+              <h3>✅ Request Submitted Successfully!</h3>
+              <p>Your feature request has been submitted to the Feedback Loop application.</p>
+              <p>You will receive updates on the status of your request.</p>
+              <button type="button" onclick="resetForm()" style="margin-top:12px">Submit Another Request</button>
+            </div>
+            
+            <div id="formError" class="error hidden" style="margin-bottom:16px;padding:12px;background-color:#fee;border-radius:6px;"></div>
+            
+            <button type="submit" class="full-width-btn" id="submitBtn">Submit Feature Request</button>
+          </form>
+        </div>
+        
+        <div class="card" style="margin-top:20px;">
+          <h3 style="margin:0 0 12px;">About This Form</h3>
+          <p>This form is used to submit requests for new features, enhancements, or applications within the IPI ecosystem.</p>
+          <ul class="info-list">
+            <li>All requests are reviewed by the IPI development team</li>
+            <li>You will receive updates on the status of your request via email</li>
+            <li>Your Customer Success Manager will be notified of your request</li>
+            <li>Requests are prioritized based on business impact and feasibility</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- View Requests Tab -->
+      <div id="view-tab" class="tab-content">
+        <div class="card">
+          <h2 style="margin:0 0 12px;">My Submitted Requests</h2>
+          <p class="muted">View and track the status of your feature requests</p>
+          
+          <div id="noRequestsMessage" style="display:none; text-align:center; padding:40px;">
+            <div style="font-size:48px;margin-bottom:12px">📭</div>
+            <div>You haven't submitted any feature requests yet.</div>
+            <p class="muted" style="margin-top:8px">Submit your first request using the "Submit Request" tab.</p>
           </div>
           
-          <div class="form-field">
-            <label for="role" class="required">Role</label>
-            <input type="text" id="role" name="role" required placeholder="Role">
-            <div id="roleError" class="error hidden"></div>
-          </div>
-          
-          <div class="form-field">
-            <label for="company" class="required">Company</label>
-            <input type="text" id="company" name="company" required placeholder="Company">
-            <div id="companyError" class="error hidden"></div>
-          </div>
-          
-          <div class="form-field">
-            <label for="appRequestType" class="required">Request Type</label>
-            <select id="appRequestType" name="appRequestType" required>
-              <option value="">Select type</option>
-              <option value="Existing App Enhancement">Existing App Enhancement</option>
-              <option value="Reporting & Analytics">Reporting & Analytics</option>
-              <option value="Data Extraction">Data Extraction</option>
-              <option value="Administration App">Administration App</option>
-              <option value="Other">Other</option>
-            </select>
-            <div id="appRequestTypeError" class="error hidden"></div>
-          </div>
-          
-          <div class="form-field">
-            <label for="csmName" class="required">CSM</label>
-            <select id="csmName" name="csmName" required>
-              <option value="">Select CSM</option>
-              <option value="Beccy Hunt">Beccy Hunt</option>
-              <option value="Dawn Poustie">Dawn Poustie</option>
-              <option value="Vicki Coleman">Vicki Coleman</option>
-            </select>
-            <div id="csmNameError" class="error hidden"></div>
-          </div>
+          <div id="requestsTableContainer" style="overflow-x:auto;"></div>
         </div>
-        
-        <!-- Other type field (appears below when "Other" is selected) -->
-        <div class="form-field full-width hidden" id="otherTypeField">
-          <label for="otherType" class="required">Specify Request Type</label>
-          <input type="text" id="otherType" name="otherType" placeholder="Please specify your request type">
-          <div id="otherTypeError" class="error hidden"></div>
-        </div>
-        
-        <!-- Full width Use Case -->
-        <div class="form-field full-width" style="margin-top:16px">
-          <label for="useCase" class="required">Use Case</label>
-          <textarea id="useCase" name="useCase" required 
-                    placeholder="Please describe your use case in detail. Include information about what you're trying to achieve, who will use it, and how it will benefit your team."></textarea>
-          <div id="useCaseError" class="error hidden"></div>
-        </div>
-        
-        <!-- Full width Supporting Information -->
-        <div class="form-field full-width">
-          <label for="supportingInfo">Supporting Information</label>
-          <textarea id="supportingInfo" name="supportingInfo" 
-                    placeholder="Any additional information, links, screenshots descriptions, or context that might help us understand your request better."></textarea>
-        </div>
-        
-        <div id="formSuccess" class="success-message hidden">
-          <h3>✅ Request Submitted Successfully!</h3>
-          <p>Your feature request has been submitted to the Feedback Loop application.</p>
-          <p>You will receive updates on the status of your request.</p>
-          <button type="button" onclick="resetForm()" style="margin-top:12px">Submit Another Request</button>
-        </div>
-        
-        <div id="formError" class="error hidden" style="margin-bottom:16px;padding:12px;background-color:#fee;border-radius:6px;"></div>
-        
-        <button type="submit" class="full-width-btn" id="submitBtn">Submit Feature Request</button>
-      </form>
-    </div>
-    
-    <div class="card" style="margin-top:20px;">
-      <h3 style="margin:0 0 12px;">About This Form</h3>
-      <p>This form is used to submit requests for new features, enhancements, or applications within the IPI ecosystem.</p>
-      <ul style="color:var(--text-light);margin-top:8px;">
-        <li>All requests are reviewed by the IPI development team</li>
-        <li>You will receive updates on the status of your request via email</li>
-        <li>Your Customer Success Manager will be notified of your request</li>
-        <li>Requests are prioritized based on business impact and feasibility</li>
-      </ul>
+      </div>
     </div>
   </div>
 
@@ -210,6 +254,7 @@
         
         showMain();
         fetchUserInfo();
+        loadUserRequests();
         return;
       }
 
@@ -222,6 +267,7 @@
         state.token = storedToken;
         showMain();
         fetchUserInfo();
+        loadUserRequests();
         return;
       }
 
@@ -302,6 +348,32 @@
       }
     }
 
+    // ===== Tab Management =====
+    function setupTabs() {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remove active class from all buttons and contents
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // Add active class to clicked button
+          button.classList.add('active');
+          
+          // Show corresponding content
+          const tabId = button.getAttribute('data-tab') + '-tab';
+          document.getElementById(tabId).classList.add('active');
+          
+          // If switching to view tab, refresh the requests
+          if (button.getAttribute('data-tab') === 'view') {
+            loadUserRequests();
+          }
+        });
+      });
+    }
+
     // ===== Form Handling =====
     function setupForm() {
       // Show/hide other type field
@@ -365,6 +437,9 @@
           if (state.user && state.user.name) {
             $('name').value = state.user.name;
           }
+          
+          // Refresh the view requests tab
+          loadUserRequests();
           
           // Scroll to success message
           $('formSuccess').scrollIntoView({ behavior: 'smooth' });
@@ -456,15 +531,12 @@
       }
     }
 
-    // ===== Submit to Feedback Loop (Simulated) =====
+    // ===== Submit to Feedback Loop =====
     async function submitToFeedbackLoop(formData) {
-      // In a real implementation, this would make an API call to your Feedback Loop application
-      // For now, we'll simulate the submission and store in localStorage for demo purposes
-      
       console.log('Submitting to Feedback Loop:', formData);
       
       // Generate a unique ID for this request
-      const requestId = 'REQ-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+      const requestId = 'FR-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
       
       // Add metadata
       const submission = {
@@ -472,10 +544,11 @@
         ...formData,
         submittedAt: new Date().toISOString(),
         status: 'New',
+        priority: 'Medium',
         assignedTo: 'IPI Development Team'
       };
       
-      // Store in localStorage (for demo purposes)
+      // Store in localStorage
       const existingRequests = JSON.parse(localStorage.getItem('ipi_feature_requests') || '[]');
       existingRequests.push(submission);
       localStorage.setItem('ipi_feature_requests', JSON.stringify(existingRequests));
@@ -490,10 +563,84 @@
       };
     }
 
+    // ===== Load User Requests =====
+    function loadUserRequests() {
+      const allRequests = JSON.parse(localStorage.getItem('ipi_feature_requests') || '[]');
+      
+      // Filter requests by current user's email if available
+      let userRequests = allRequests;
+      if (state.user && state.user.email) {
+        userRequests = allRequests.filter(request => 
+          request.submittedByEmail === state.user.email
+        );
+      }
+      
+      const container = $('#requestsTableContainer');
+      const noRequestsMsg = $('#noRequestsMessage');
+      
+      if (userRequests.length === 0) {
+        container.innerHTML = '';
+        noRequestsMsg.style.display = 'block';
+        return;
+      }
+      
+      noRequestsMsg.style.display = 'none';
+      
+      // Sort by date, newest first
+      userRequests.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+      
+      let html = '<table class="requests-table">';
+      html += '<thead><tr>';
+      html += '<th>Request ID</th>';
+      html += '<th>Type</th>';
+      html += '<th>Submitted</th>';
+      html += '<th>Status</th>';
+      html += '<th>Priority</th>';
+      html += '<th>CSM</th>';
+      html += '</tr></thead>';
+      html += '<tbody>';
+      
+      userRequests.forEach(request => {
+        const date = new Date(request.submittedAt);
+        const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        // Status badge color
+        let statusClass = '';
+        switch(request.status) {
+          case 'New': statusClass = 'style="background-color:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          case 'In Progress': statusClass = 'style="background-color:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          case 'Completed': statusClass = 'style="background-color:#d1fae5;color:#065f46;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          default: statusClass = 'style="background-color:#e5e7eb;color:#374151;padding:2px 8px;border-radius:12px;font-size:12px"';
+        }
+        
+        // Priority badge
+        let priorityClass = '';
+        switch(request.priority) {
+          case 'High': priorityClass = 'style="background-color:#fee2e2;color:#b91c1c;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          case 'Medium': priorityClass = 'style="background-color:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          case 'Low': priorityClass = 'style="background-color:#d1fae5;color:#065f46;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          default: priorityClass = 'style="background-color:#e5e7eb;color:#374151;padding:2px 8px;border-radius:12px;font-size:12px"';
+        }
+        
+        html += '<tr>';
+        html += `<td><strong>${request.id}</strong></td>`;
+        html += `<td>${request.appRequestType}</td>`;
+        html += `<td>${formattedDate}</td>`;
+        html += `<td><span ${statusClass}>${request.status}</span></td>`;
+        html += `<td><span ${priorityClass}>${request.priority}</span></td>`;
+        html += `<td>${request.csmName}</td>`;
+        html += '</tr>';
+      });
+      
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }
+
     // ===== Initialize =====
     document.addEventListener('DOMContentLoaded', function() {
       initAuth();
       setupForm();
+      setupTabs();
     });
     
     // Make resetForm available globally
