@@ -10,7 +10,7 @@
       --light-bg:#F8F9FA; --card-bg:#FFFFFF; --text-color:#2C3E50; --text-light:#6C757D;
       --pill:#e9f6f0; --error-color:#dc2626; --success-color:#16a34a;
     }
-    body{font-family:"Aptos","Segoe UI",Arial,sans-serif;margin:20px;padding:20px;max-width:1400px;background:var(--light-bg);color:var(--text-color)}
+    body{font-family:"Aptos","Segoe UI",Arial,sans-serif;margin:20px;padding:20px;max-width:1200px;background:var(--light-bg);color:var(--text-color)}
     #logo-container{text-align:center;margin-bottom:20px} #logo{width:300px}
     h1{margin:0 0 16px}
     .card{background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:24px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
@@ -35,45 +35,6 @@
     .progress-bar{width:100%;height:8px;background:var(--border-color);border-radius:4px;overflow:hidden;margin:10px 0}
     .progress-fill{height:100%;background:var(--primary-color);transition:width .3s}
     .hidden{display:none}
-    
-    .status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding:20px;background:var(--light-bg);border-radius:12px}
-    .status-item{display:flex;align-items:center;gap:10px}
-    .status-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:.75rem;font-weight:bold}
-    .status-icon.active{background:var(--primary-color)}
-    .status-icon.inactive{background:var(--text-light)}
-    .status-text{font-weight:600;color:var(--text-color)}
-    
-    .info-section{background:var(--light-bg);padding:24px;border-radius:12px;margin-top:30px}
-    .info-title{font-size:1.2rem;margin-bottom:16px;color:var(--text-color)}
-    .info-list{list-style:none}
-    .info-list li{padding:8px 0;padding-left:24px;position:relative;color:var(--text-medium)}
-    .info-list li::before{content:"✓";position:absolute;left:0;color:var(--primary-color);font-weight:bold}
-    
-    .tab-container{margin-top:20px}
-    .tab-buttons{display:flex;border-bottom:1px solid var(--border-color);margin-bottom:20px}
-    .tab-button{padding:10px 20px;background:none;border:none;cursor:pointer;font-weight:600;color:var(--text-light);border-bottom:3px solid transparent;transition:all .2s}
-    .tab-button.active{color:var(--primary-color);border-bottom-color:var(--primary-color)}
-    .tab-content{display:none}
-    .tab-content.active{display:block}
-    
-    .transfer-table{width:100%;border-collapse:collapse;margin-top:16px}
-    .transfer-table th,.transfer-table td{border:1px solid var(--border-color);padding:12px;text-align:left}
-    .transfer-table th{background-color:var(--primary-color);color:white;font-weight:600}
-    .transfer-table tr:nth-child(even){background-color:var(--light-bg)}
-    .transfer-table tr:hover{background-color:#f0f7f4}
-    
-    .stats{display:flex;gap:16px;margin:16px 0}
-    .stat-card{flex:1;border:1px solid var(--border-color);border-radius:8px;padding:16px;text-align:center;background:var(--card-bg)}
-    .stat-number{font-size:22px;color:var(--primary-color);font-weight:700}
-    .stat-label{color:var(--text-light);font-size:14px}
-    
-    .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px 24px;align-items:start}
-    .inline{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center} .inline span{color:var(--text-light)}
-    
-    .participant-badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;margin:2px;border:1px solid var(--border-color);background:#fff}
-    .badge-customer{border-color:#a7e3c6;color:#1f7255}
-    .badge-agent{background:#dbeafe;color:#1e40af}
-    .badge-queue{background:#fde7ff;color:#7c3aed}
   </style>
 </head>
 <body>
@@ -82,37 +43,20 @@
   </div>
   
   <div id="authSection" class="card auth-section">
-    <h2 style="margin:0 0 12px">Feature Request Portal</h2>
-    <p class="muted">Please authenticate with Genesys Cloud to submit feature requests</p>
+    <h2>Feature Request Form</h2>
+    <p style="margin-bottom:20px;color:var(--text-light)">Please authenticate with Genesys Cloud to submit a feature request</p>
     <button id="signinBtn" class="auth-btn">Sign in to Genesys Cloud</button>
   </div>
 
-  <div id="mainContent" class="hidden">
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <div class="status-item">
-        <div class="status-icon active">1</div>
-        <span class="status-text">Authentication Complete</span>
-      </div>
-      <div class="status-item">
-        <div class="status-icon active">2</div>
-        <span class="status-text">Complete Request Form</span>
-      </div>
-      <div class="status-item">
-        <div class="status-icon inactive">3</div>
-        <span class="status-text">Submit Request</span>
-      </div>
-    </div>
-    
-    <!-- Main Form Card -->
+  <div id="mainContent" style="display:none;">
     <div class="card">
-      <h2 style="margin:0 0 8px">Submit Feature Request</h2>
-      <p class="muted" style="margin-bottom:20px">Complete all required fields below. All requests are reviewed by our development team.</p>
+      <h1 style="margin:0 0 8px;">Feature Request Form</h1>
+      <p class="muted">Submit your request for new features, enhancements, or applications</p>
       
       <form id="featureRequestForm">
         <div class="form-grid">
           <div class="form-field">
-            <label for="name" class="required">Full Name</label>
+            <label for="name" class="required">Name</label>
             <input type="text" id="name" name="name" required placeholder="Enter your full name">
             <div id="nameError" class="error hidden"></div>
           </div>
@@ -142,10 +86,17 @@
             <div id="appRequestTypeError" class="error hidden"></div>
           </div>
           
-          <div class="form-field hidden" id="otherTypeField">
+          <div class="form-field" id="otherTypeField" style="display:none;">
             <label for="otherType" class="required">Please specify</label>
             <input type="text" id="otherType" name="otherType" placeholder="Please specify your request type">
             <div id="otherTypeError" class="error hidden"></div>
+          </div>
+          
+          <div class="form-field full-width">
+            <label for="useCase" class="required">Use Case</label>
+            <textarea id="useCase" name="useCase" required 
+                      placeholder="Please describe your use case in detail. Include information about what you're trying to achieve, who will use it, and how it will benefit your team."></textarea>
+            <div id="useCaseError" class="error hidden"></div>
           </div>
           
           <div class="form-field">
@@ -160,13 +111,6 @@
           </div>
           
           <div class="form-field full-width">
-            <label for="useCase" class="required">Use Case</label>
-            <textarea id="useCase" name="useCase" required 
-                      placeholder="Please describe your use case in detail. Include information about what you're trying to achieve, who will use it, and how it will benefit your team."></textarea>
-            <div id="useCaseError" class="error hidden"></div>
-          </div>
-          
-          <div class="form-field full-width">
             <label for="supportingInfo">Supporting Information</label>
             <textarea id="supportingInfo" name="supportingInfo" 
                       placeholder="Any additional information, links, screenshots descriptions, or context that might help us understand your request better."></textarea>
@@ -174,9 +118,9 @@
         </div>
         
         <div id="formSuccess" class="success-message hidden">
-          <h3 style="margin:0 0 8px">✅ Request Submitted Successfully!</h3>
-          <p style="margin-bottom:12px">Your feature request has been submitted to the Feedback Loop application.</p>
-          <p style="margin-bottom:16px">You will receive updates on the status of your request.</p>
+          <h3>✅ Request Submitted Successfully!</h3>
+          <p>Your feature request has been submitted to the Feedback Loop application.</p>
+          <p>You will receive updates on the status of your request.</p>
           <button type="button" onclick="resetForm()" style="margin-top:12px">Submit Another Request</button>
         </div>
         
@@ -186,15 +130,14 @@
       </form>
     </div>
     
-    <!-- Information Section -->
-    <div class="info-section">
-      <h3 class="info-title">About This Portal</h3>
-      <ul class="info-list">
-        <li>All requests are reviewed by our development team within 3 business days</li>
-        <li>You will receive email updates on request status and progress</li>
-        <li>Your Customer Success Manager will be notified and can provide additional context</li>
-        <li>Requests are prioritized based on business impact, feasibility, and alignment with our roadmap</li>
-        <li>You can track the status of your requests through our customer portal</li>
+    <div class="card" style="margin-top:20px;">
+      <h3 style="margin:0 0 12px;">About This Form</h3>
+      <p>This form is used to submit requests for new features, enhancements, or applications within the IPI ecosystem.</p>
+      <ul style="color:var(--text-light);margin-top:8px;">
+        <li>All requests are reviewed by the IPI development team</li>
+        <li>You will receive updates on the status of your request via email</li>
+        <li>Your Customer Success Manager will be notified of your request</li>
+        <li>Requests are prioritized based on business impact and feasibility</li>
       </ul>
     </div>
   </div>
@@ -297,8 +240,8 @@
     }
 
     function showMain(){
-      $('authSection').classList.add('hidden');
-      $('mainContent').classList.remove('hidden');
+      $('authSection').style.display = 'none';
+      $('mainContent').style.display = 'block';
     }
 
     // ===== API Helper =====
@@ -353,10 +296,10 @@
       // Show/hide other type field
       $('appRequestType').addEventListener('change', function() {
         if (this.value === 'Other') {
-          $('otherTypeField').classList.remove('hidden');
+          $('otherTypeField').style.display = 'block';
           $('otherType').required = true;
         } else {
-          $('otherTypeField').classList.add('hidden');
+          $('otherTypeField').style.display = 'none';
           $('otherType').required = false;
           $('otherType').value = '';
         }
@@ -404,13 +347,8 @@
           // Show success message
           $('formSuccess').classList.remove('hidden');
           $('featureRequestForm').reset();
-          $('otherTypeField').classList.add('hidden');
+          $('otherTypeField').style.display = 'none';
           $('otherType').required = false;
-          
-          // Restore user info if available
-          if (state.user && state.user.name) {
-            $('name').value = state.user.name;
-          }
           
           // Scroll to success message
           $('formSuccess').scrollIntoView({ behavior: 'smooth' });
@@ -490,7 +428,7 @@
 
     function resetForm() {
       $('featureRequestForm').reset();
-      $('otherTypeField').classList.add('hidden');
+      $('otherTypeField').style.display = 'none';
       $('otherType').required = false;
       $('formSuccess').classList.add('hidden');
       $('formError').classList.add('hidden');
@@ -510,7 +448,7 @@
       console.log('Submitting to Feedback Loop:', formData);
       
       // Generate a unique ID for this request
-      const requestId = 'FR-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+      const requestId = 'REQ-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
       
       // Add metadata
       const submission = {
@@ -528,6 +466,11 @@
       
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // In a real implementation, you would:
+      // 1. Send to your Feedback Loop API endpoint
+      // 2. Handle the response
+      // 3. Update UI accordingly
       
       return {
         success: true,
