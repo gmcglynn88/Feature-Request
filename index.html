@@ -10,7 +10,7 @@
       --light-bg:#F8F9FA; --card-bg:#FFFFFF; --text-color:#2C3E50; --text-light:#6C757D;
       --pill:#e9f6f0; --error-color:#dc2626; --success-color:#16a34a;
     }
-    body{font-family:"Aptos","Segoe UI",Arial,sans-serif;margin:20px;padding:20px;max-width:1200px;background:var(--light-bg);color:var(--text-color)}
+    body{font-family:"Aptos","Segoe UI",Arial,sans-serif;margin:20px;padding:20px;max-width:1400px;background:var(--light-bg);color:var(--text-color)}
     #logo-container{text-align:center;margin-bottom:20px} #logo{width:300px}
     h1{margin:0 0 16px}
     .card{background:var(--card-bg);border:1px solid var(--border-color);border-radius:12px;padding:24px;margin-top:16px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
@@ -22,11 +22,11 @@
     .full-width-btn{width:100%;padding:14px 18px;font-size:16px;margin-top:12px}
     .muted{color:var(--text-light)} .mono{font-family:ui-monospace,Consolas,Menlo,monospace}
     .loading{opacity:.6;pointer-events:none}
-    .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 24px;margin-bottom:20px}
-    .form-field{margin-bottom:16px}
+    .form-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:20px}
+    .form-field{margin-bottom:0}
     .form-field.full-width{grid-column:1/-1}
     .required:after{content:" *";color:var(--error-color)}
-    .error{color:var(--error-color);font-size:14px;margin-top:4px}
+    .error{color:var(--error-color);font-size:12px;margin-top:4px;min-height:16px}
     .success-message{background-color:#f0fdf4;border:1px solid var(--success-color);border-radius:8px;padding:20px;text-align:center;margin:20px 0}
     .success-message h3{color:var(--success-color);margin:0 0 8px}
     .auth-section{text-align:center;padding:40px 20px}
@@ -36,6 +36,9 @@
     .progress-fill{height:100%;background:var(--primary-color);transition:width .3s}
     .hidden{display:none}
     
+    @media (max-width: 1200px) {
+      .form-grid{grid-template-columns:repeat(3,1fr)}
+    }
     @media (max-width: 768px) {
       .form-grid{grid-template-columns:1fr}
     }
@@ -55,33 +58,33 @@
   <div id="mainContent" style="display:none;">
     <div class="card">
       <h1 style="margin:0 0 8px;">Feature Request Form</h1>
-      <p class="muted">Submit your request for new features, enhancements, or applications</p>
+      <p class="muted" style="margin-bottom:20px">Submit your request for new features, enhancements, or applications</p>
       
       <form id="featureRequestForm">
+        <!-- Compact 5-column grid for top row -->
         <div class="form-grid">
-          <!-- Row 1: Name, Role, Company, App Request Type, CSM all in one row (2x2 grid) -->
           <div class="form-field">
             <label for="name" class="required">Name</label>
-            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            <input type="text" id="name" name="name" required placeholder="Full name">
             <div id="nameError" class="error hidden"></div>
           </div>
           
           <div class="form-field">
             <label for="role" class="required">Role</label>
-            <input type="text" id="role" name="role" required placeholder="e.g., Supervisor, Analyst, Manager">
+            <input type="text" id="role" name="role" required placeholder="Role">
             <div id="roleError" class="error hidden"></div>
           </div>
           
           <div class="form-field">
             <label for="company" class="required">Company</label>
-            <input type="text" id="company" name="company" required placeholder="Enter your company name">
+            <input type="text" id="company" name="company" required placeholder="Company">
             <div id="companyError" class="error hidden"></div>
           </div>
           
           <div class="form-field">
-            <label for="appRequestType" class="required">App Request Type</label>
+            <label for="appRequestType" class="required">Request Type</label>
             <select id="appRequestType" name="appRequestType" required>
-              <option value="">Select a request type</option>
+              <option value="">Select type</option>
               <option value="Existing App Enhancement">Existing App Enhancement</option>
               <option value="Reporting & Analytics">Reporting & Analytics</option>
               <option value="Data Extraction">Data Extraction</option>
@@ -92,32 +95,33 @@
           </div>
           
           <div class="form-field">
-            <label for="csmName" class="required">Customer Success Manager</label>
+            <label for="csmName" class="required">CSM</label>
             <select id="csmName" name="csmName" required>
-              <option value="">Select a CSM</option>
+              <option value="">Select CSM</option>
               <option value="Beccy Hunt">Beccy Hunt</option>
               <option value="Dawn Poustie">Dawn Poustie</option>
               <option value="Vicki Coleman">Vicki Coleman</option>
             </select>
             <div id="csmNameError" class="error hidden"></div>
           </div>
-          
-          <div class="form-field" id="otherTypeField" style="display:none;">
-            <label for="otherType" class="required">Please specify</label>
-            <input type="text" id="otherType" name="otherType" placeholder="Please specify your request type">
-            <div id="otherTypeError" class="error hidden"></div>
-          </div>
         </div>
         
-        <!-- Stretched Use Case -->
-        <div class="form-field full-width">
+        <!-- Other type field (appears below when "Other" is selected) -->
+        <div class="form-field full-width hidden" id="otherTypeField">
+          <label for="otherType" class="required">Specify Request Type</label>
+          <input type="text" id="otherType" name="otherType" placeholder="Please specify your request type">
+          <div id="otherTypeError" class="error hidden"></div>
+        </div>
+        
+        <!-- Full width Use Case -->
+        <div class="form-field full-width" style="margin-top:16px">
           <label for="useCase" class="required">Use Case</label>
           <textarea id="useCase" name="useCase" required 
                     placeholder="Please describe your use case in detail. Include information about what you're trying to achieve, who will use it, and how it will benefit your team."></textarea>
           <div id="useCaseError" class="error hidden"></div>
         </div>
         
-        <!-- Stretched Supporting Information -->
+        <!-- Full width Supporting Information -->
         <div class="form-field full-width">
           <label for="supportingInfo">Supporting Information</label>
           <textarea id="supportingInfo" name="supportingInfo" 
@@ -303,10 +307,10 @@
       // Show/hide other type field
       $('appRequestType').addEventListener('change', function() {
         if (this.value === 'Other') {
-          $('otherTypeField').style.display = 'block';
+          $('otherTypeField').classList.remove('hidden');
           $('otherType').required = true;
         } else {
-          $('otherTypeField').style.display = 'none';
+          $('otherTypeField').classList.add('hidden');
           $('otherType').required = false;
           $('otherType').value = '';
         }
@@ -354,8 +358,13 @@
           // Show success message
           $('formSuccess').classList.remove('hidden');
           $('featureRequestForm').reset();
-          $('otherTypeField').style.display = 'none';
+          $('otherTypeField').classList.add('hidden');
           $('otherType').required = false;
+          
+          // Restore user info if available
+          if (state.user && state.user.name) {
+            $('name').value = state.user.name;
+          }
           
           // Scroll to success message
           $('formSuccess').scrollIntoView({ behavior: 'smooth' });
@@ -435,7 +444,7 @@
 
     function resetForm() {
       $('featureRequestForm').reset();
-      $('otherTypeField').style.display = 'none';
+      $('otherTypeField').classList.add('hidden');
       $('otherType').required = false;
       $('formSuccess').classList.add('hidden');
       $('formError').classList.add('hidden');
