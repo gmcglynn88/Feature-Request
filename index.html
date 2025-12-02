@@ -39,15 +39,15 @@
     .status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding:20px;background:var(--light-bg);border-radius:12px}
     .status-item{display:flex;align-items:center;gap:10px}
     .status-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:.75rem;font-weight:bold}
-    .status-icon.active{background:var(--secondary-color)}
+    .status-icon.active{background:var(--primary-color)}
     .status-icon.inactive{background:var(--text-light)}
-    .status-text{font-weight:600;color:var(--text-dark)}
+    .status-text{font-weight:600;color:var(--text-color)}
     
     .info-section{background:var(--light-bg);padding:24px;border-radius:12px;margin-top:30px}
-    .info-title{font-size:1.2rem;margin-bottom:16px;color:var(--text-dark)}
+    .info-title{font-size:1.2rem;margin-bottom:16px;color:var(--text-color)}
     .info-list{list-style:none}
     .info-list li{padding:8px 0;padding-left:24px;position:relative;color:var(--text-medium)}
-    .info-list li::before{content:"✓";position:absolute;left:0;color:var(--secondary-color);font-weight:bold}
+    .info-list li::before{content:"✓";position:absolute;left:0;color:var(--primary-color);font-weight:bold}
     
     .tab-container{margin-top:20px}
     .tab-buttons{display:flex;border-bottom:1px solid var(--border-color);margin-bottom:20px}
@@ -55,6 +55,25 @@
     .tab-button.active{color:var(--primary-color);border-bottom-color:var(--primary-color)}
     .tab-content{display:none}
     .tab-content.active{display:block}
+    
+    .transfer-table{width:100%;border-collapse:collapse;margin-top:16px}
+    .transfer-table th,.transfer-table td{border:1px solid var(--border-color);padding:12px;text-align:left}
+    .transfer-table th{background-color:var(--primary-color);color:white;font-weight:600}
+    .transfer-table tr:nth-child(even){background-color:var(--light-bg)}
+    .transfer-table tr:hover{background-color:#f0f7f4}
+    
+    .stats{display:flex;gap:16px;margin:16px 0}
+    .stat-card{flex:1;border:1px solid var(--border-color);border-radius:8px;padding:16px;text-align:center;background:var(--card-bg)}
+    .stat-number{font-size:22px;color:var(--primary-color);font-weight:700}
+    .stat-label{color:var(--text-light);font-size:14px}
+    
+    .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px 24px;align-items:start}
+    .inline{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center} .inline span{color:var(--text-light)}
+    
+    .participant-badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;margin:2px;border:1px solid var(--border-color);background:#fff}
+    .badge-customer{border-color:#a7e3c6;color:#1f7255}
+    .badge-agent{background:#dbeafe;color:#1e40af}
+    .badge-queue{background:#fde7ff;color:#7c3aed}
   </style>
 </head>
 <body>
@@ -85,7 +104,7 @@
       </div>
     </div>
     
-    <!-- Main Form -->
+    <!-- Main Form Card -->
     <div class="card">
       <h2 style="margin:0 0 8px">Submit Feature Request</h2>
       <p class="muted" style="margin-bottom:20px">Complete all required fields below. All requests are reviewed by our development team.</p>
