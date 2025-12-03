@@ -22,9 +22,9 @@
     .full-width-btn{width:100%;padding:14px 18px;font-size:16px;margin-top:12px}
     .muted{color:var(--text-light)} .mono{font-family:ui-monospace,Consolas,Menlo,monospace}
     .loading{opacity:.6;pointer-events:none}
-    .form-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:20px}
-    .form-field{margin-bottom:0}
-    .form-field.full-width{grid-column:1/-1}
+    .form-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:20px;width:100%}
+    .form-field{margin-bottom:0;width:100%}
+    .form-field.full-width{grid-column:1/-1;width:100%;margin-top:20px}
     .required:after{content:" *";color:var(--error-color)}
     .error{color:var(--error-color);font-size:12px;margin-top:4px;min-height:16px}
     .success-message{background-color:#f0fdf4;border:1px solid var(--success-color);border-radius:8px;padding:20px;text-align:center;margin:20px 0}
@@ -54,11 +54,23 @@
     .tab-content{display:none}
     .tab-content.active{display:block}
     
+    /* Make textareas stretch to full width */
+    textarea{width:100%;box-sizing:border-box}
+    #useCase, #supportingInfo{min-height:100px;width:100%;resize:vertical;box-sizing:border-box}
+    
+    /* Ensure form fields within full-width containers stretch properly */
+    .form-field.full-width textarea,
+    .form-field.full-width input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
     @media (max-width: 1200px) {
       .form-grid{grid-template-columns:repeat(3,1fr)}
     }
     @media (max-width: 768px) {
       .form-grid{grid-template-columns:1fr}
+      .form-field.full-width{grid-column:1/-1}
     }
   </style>
 </head>
@@ -414,7 +426,7 @@
           submittedBy: state.user ? state.user.name : 'Unknown',
           submittedByEmail: state.user ? state.user.email : 'Unknown',
           submittedAt: new Date().toISOString(),
-          status: 'New',
+          status: 'Under Review',  // Set to 'Under Review'
           priority: 'Medium'
         };
         
@@ -538,12 +550,12 @@
       // Generate a unique ID for this request
       const requestId = 'FR-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
       
-      // Add metadata
+      // Add metadata with 'Under Review' status
       const submission = {
         id: requestId,
         ...formData,
         submittedAt: new Date().toISOString(),
-        status: 'New',
+        status: 'Under Review',  // Changed from 'New' to 'Under Review'
         priority: 'Medium',
         assignedTo: 'IPI Development Team'
       };
@@ -607,9 +619,10 @@
         // Status badge color
         let statusClass = '';
         switch(request.status) {
-          case 'New': statusClass = 'style="background-color:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          case 'Under Review': statusClass = 'style="background-color:#dbeafe;color:#1e40af;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
           case 'In Progress': statusClass = 'style="background-color:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
           case 'Completed': statusClass = 'style="background-color:#d1fae5;color:#065f46;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
+          case 'On Hold': statusClass = 'style="background-color:#e5e7eb;color:#374151;padding:2px 8px;border-radius:12px;font-size:12px"'; break;
           default: statusClass = 'style="background-color:#e5e7eb;color:#374151;padding:2px 8px;border-radius:12px;font-size:12px"';
         }
         
